@@ -1,17 +1,14 @@
-import { Form, Formik } from "formik";
-import { useEffect, useState } from "react";
-import { Button, Col, InputGroup, Modal, Row } from "react-bootstrap";
+import {Form, Formik} from "formik";
+import {useEffect, useState} from "react";
+import {Button, Col, InputGroup, Modal, Row} from "react-bootstrap";
+import {useDispatch} from "react-redux";
 import * as Yup from "yup";
 import useAPI from "../../hooks/use-api";
+import {alertActions} from "../../store/alert";
 import FormCheckboxGroup from "../UI/Form/FormCheckboxGroup";
 import FormInput from "../UI/Form/FormInput";
 import FormSelect from "../UI/Form/FormSelect";
-import {
-  emailOptions,
-  transformInstitutionsResponse,
-  transformRolesResponse,
-  transformUserRequest,
-} from "./util";
+import {emailOptions, transformInstitutionsResponse, transformRolesResponse, transformUserRequest,} from "./util";
 
 // Get the logged-in user from the session
 const loggedInUser = null;
@@ -39,10 +36,11 @@ const validationSchema = Yup.object({
   institution: Yup.string().required("Required").nonNullable(),
 });
 
-const CreateUser = ({ onClose }) => {
+const CreateUser = ({onClose}) => {
+  const dispatch = useDispatch();
   const [show, setShow] = useState(true);
-  const { data: roles, sendRequest: fetchRoles } = useAPI();
-  const { data: institutions, sendRequest: fetchInstitutions } = useAPI();
+  const {data: roles, sendRequest: fetchRoles} = useAPI();
+  const {data: institutions, sendRequest: fetchInstitutions} = useAPI();
   const {
     data: createdUser,
     error: userError,
@@ -50,12 +48,21 @@ const CreateUser = ({ onClose }) => {
   } = useAPI();
 
   useEffect(() => {
-    fetchRoles({ url: "/roles", transformResponse: transformRolesResponse });
+    fetchRoles({url: "/roles", transformResponse: transformRolesResponse});
     fetchInstitutions({
       url: "/institutions",
       transformResponse: transformInstitutionsResponse,
     });
   }, [fetchRoles, fetchInstitutions]);
+
+  useEffect(() => {
+    if (userError) {
+      dispatch(alertActions.showAlert({
+        variant: "danger",
+        message: userError
+      }));
+    }
+  }, [userError, dispatch]);
 
   useEffect(() => {
     if (createdUser.length > 0) {
@@ -68,7 +75,7 @@ const CreateUser = ({ onClose }) => {
     createUser({
       url: "/users",
       method: "post",
-      data: { ...values, parent: loggedInUser },
+      data: {...values, parent: loggedInUser},
       transformRequest: transformUserRequest,
     });
     submitProps.resetForm();
@@ -92,7 +99,6 @@ const CreateUser = ({ onClose }) => {
         <Modal.Title>Create User</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {userError && <p className="text-danger">{userError}</p>}
         <Formik
           initialValues={initialValues}
           onSubmit={onSubmit}
@@ -132,7 +138,7 @@ const CreateUser = ({ onClose }) => {
                     name="lastName"
                   />
                 </Row>
-                <FormInput controlId="user-email" label="Email" name="email" />
+                <FormInput controlId="user-email" label="Email" name="email"/>
 
                 <FormCheckboxGroup
                   controlId="email-pref"

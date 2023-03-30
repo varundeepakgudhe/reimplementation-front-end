@@ -1,14 +1,17 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import {useCallback, useEffect, useMemo, useState} from "react";
+import {Button, Col, Container, Row} from "react-bootstrap";
+import {useDispatch} from "react-redux";
 import useAPI from "../../hooks/use-api";
-import { AddUserIcon } from "../UI/Icons";
+import {alertActions} from "../../store/alert";
+import {AddUserIcon} from "../UI/Icons";
 import Table from "../UI/Table/Table";
 import CreateUser from "./CreateUser";
 import DeleteUser from "./DeleteUser";
 import UpdateUser from "./UpdateUser";
-import { USER_COLUMNS } from "./userColumns";
+import {USER_COLUMNS} from "./userColumns";
 
 const Users = () => {
+  const dispatch = useDispatch();
   const {
     error,
     isLoading,
@@ -17,42 +20,41 @@ const Users = () => {
     sendRequest: fetchUsers,
   } = useAPI();
 
-  const [message, setMessage] = useState({ error: false, text: "" });
   const [showCreate, setShowCreate] = useState(false);
   const [showUpdate, setShowUpdate] = useState({
     visible: false,
     data: {},
   });
-
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState({
     visible: false,
     data: {},
   });
 
-  useEffect(() => fetchUsers({ url: "/users", method: "get" }), [fetchUsers]);
+  useEffect(() => fetchUsers({url: "/users", method: "get"}), [fetchUsers]);
 
-  // Clear the message after 5 second
+  // Error alert
   useEffect(() => {
-    const timer = setTimeout(
-      () => setMessage({ error: false, text: "" }),
-      5000
-    );
-    return () => clearTimeout(timer);
-  }, [message.error, message.text]);
+    if (error) {
+      dispatch(alertActions.showAlert({
+        variant: "danger",
+        message: error
+      }));
+    }
+  }, [error, dispatch]);
 
   const onCreateUserHandler = useCallback(
     (user) => {
       if (user && user.name) {
         console.log(user);
         setUserData((prevData) => [...prevData, user]);
-        setMessage({
-          error: false,
-          text: `User ${user.name} created successfully!`,
-        });
+        dispatch(alertActions.showAlert({
+          variant: "success",
+          message: `User ${user.name} created successfully!`
+        }));
       }
       setShowCreate(false);
     },
-    [setUserData]
+    [setUserData, dispatch]
   );
 
   const onUpdateUserHandler = useCallback(
@@ -62,36 +64,36 @@ const Users = () => {
           ...prevData.filter((user) => user.id !== updatedUser.id),
           updatedUser,
         ]);
-        setMessage({
-          error: false,
-          text: `User ${updatedUser.name} updated successfully!`,
-        });
+        dispatch(alertActions.showAlert({
+          variant: "success",
+          message: `User ${updatedUser.name} updated successfully!`
+        }));
       }
-      setShowUpdate({ visible: false, data: {} });
+      setShowUpdate({visible: false, data: {}});
     },
-    [setUserData]
+    [setUserData, dispatch]
   );
 
   const onDeleteUserHandler = useCallback(
-    (id, name, message) => {
-      if (message) {
+    (id, name, status) => {
+      if (status) {
         setUserData((prevData) => {
           return prevData.filter((user) => user.id !== id);
         });
-        setMessage({
-          error: false,
-          text: `User ${name} deleted successfully!`,
-        });
+        dispatch(alertActions.showAlert({
+          variant: "success",
+          message: `User ${name} deleted successfully!`
+        }));
       }
-      setShowDeleteConfirmation({ visible: false, data: {} });
+      setShowDeleteConfirmation({visible: false, data: {}});
     },
-    [setUserData]
+    [setUserData, dispatch]
   );
 
   const onEditHandle = (row) =>
-    setShowUpdate({ visible: true, data: row.original });
+    setShowUpdate({visible: true, data: row.original});
   const onDeleteHandle = (row) =>
-    setShowDeleteConfirmation({ visible: true, data: row.original });
+    setShowDeleteConfirmation({visible: true, data: row.original});
 
   const tableColumns = useMemo(
     () => USER_COLUMNS(onDeleteHandle, onEditHandle),
@@ -101,27 +103,26 @@ const Users = () => {
     () => (isLoading ? [] : userData),
     [userData, isLoading]
   );
-  const initialState = { hiddenColumns: ["id", "institution"] };
+  const initialState = {hiddenColumns: ["id", "institution"]};
 
   return (
     <Container fluid className="px-md-4">
       <Row className="mt-md-2 mb-md-2">
-        <Col md={{ span: 4, offset: 4 }}>
+        <Col md={{span: 4, offset: 4}}>
           <h1>Manage Users</h1>
         </Col>
-        {error && <p className="text-danger">{error}</p>}
-        <hr />
+        <hr/>
       </Row>
       <Row>
-        <Col md={{ span: 1, offset: 11 }}>
+        <Col md={{span: 1, offset: 11}}>
           <Button
             variant="outline-secondary"
             onClick={() => setShowCreate(true)}
           >
-            <AddUserIcon width="24" height="24" />
+            <AddUserIcon width="24" height="24"/>
           </Button>
         </Col>
-        {showCreate && <CreateUser onClose={onCreateUserHandler} />}
+        {showCreate && <CreateUser onClose={onCreateUserHandler}/>}
         {showUpdate.visible && (
           <UpdateUser
             userData={showUpdate.data}

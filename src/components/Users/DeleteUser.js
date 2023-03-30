@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import {useEffect, useState} from "react";
+import {Button, Modal} from "react-bootstrap";
+import {useDispatch} from "react-redux";
 import useAPI from "../../hooks/use-api";
+import {alertActions} from "../../store/alert";
 
-const DeleteUser = ({ userData, onClose }) => {
+const DeleteUser = ({userData, onClose}) => {
+  const dispatch = useDispatch();
   const {
     data: deletedUser,
     error: userError,
@@ -11,11 +14,19 @@ const DeleteUser = ({ userData, onClose }) => {
   const [show, setShow] = useState(true);
 
   const deleteHandler = () =>
-    deleteUser({ url: `/users/${userData.id}`, method: "DELETE" });
+    deleteUser({url: `/users/${userData.id}`, method: "DELETE"});
+
+  useEffect(() => {
+    if (userError) {
+      dispatch(alertActions.showAlert({
+        variant: "danger",
+        message: userError,
+      }));
+    }
+  }, [userError, dispatch]);
 
   useEffect(() => {
     if (deletedUser.length > 0) {
-      console.log("user deleted");
       setShow(false);
       onClose(deletedUser[0]);
     }
@@ -32,7 +43,6 @@ const DeleteUser = ({ userData, onClose }) => {
         <Modal.Title>Delete User</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {userError && <p className="text-danger">{userError}</p>}
         <p>
           Are you sure you want to delete user <b>{userData.name}?</b>
         </p>
