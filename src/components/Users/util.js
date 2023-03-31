@@ -1,5 +1,5 @@
 export const emailOptions = [
-  { label: "When someone else reviews my work", value: "email_on_review" },
+  {label: "When someone else reviews my work", value: "email_on_review"},
   {
     label: "When someone else submits work I am assigned to review",
     value: "email_on_submission",
@@ -11,7 +11,7 @@ export const emailOptions = [
 ];
 
 export const transformInstitutionsResponse = (institutions) => {
-  let institutionsData = [{ key: "Select an Institution", value: "" }];
+  let institutionsData = [{key: "Select an Institution", value: ""}];
   institutions = JSON.parse(institutions);
   institutionsData = institutionsData.concat(
     institutions.map((institution) => ({
@@ -23,7 +23,7 @@ export const transformInstitutionsResponse = (institutions) => {
 };
 
 export const transformRolesResponse = (roles) => {
-  let rolesData = [{ key: "Select a Role", value: "" }];
+  let rolesData = [{key: "Select a Role", value: ""}];
   roles = JSON.parse(roles);
   rolesData = rolesData.concat(
     roles.map((role) => ({

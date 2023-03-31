@@ -1,9 +1,18 @@
 import {Field} from "formik";
 import React from "react";
 import {Form, InputGroup} from "react-bootstrap";
+import InfoToolTip from "../InfoToolTip";
 
 const FormInput = (props) => {
-  const {as, md, controlId, label, name, disabled, type, inputGroupPrepend} = props;
+  const {as, md, controlId, label, name, disabled, type, inputGroupPrepend, tooltip} = props;
+
+  const displayLabel = tooltip ? (
+    <>
+      {label + " "}
+      <InfoToolTip id={`${controlId}-tooltip`} info={tooltip}/>
+    </>
+  ) : label;
+
   return (
     <Field name={name}>
       {({field, form}) => {
@@ -11,14 +20,13 @@ const FormInput = (props) => {
         const isInvalid = form.touched[field.name] && !isValid;
         return (
           <Form.Group as={as} md={md} controlId={controlId} className="mb-md-2">
-            <Form.Label>{label}</Form.Label>
+            <Form.Label>{displayLabel}</Form.Label>
             <InputGroup>
               {inputGroupPrepend}
               <Form.Control
                 {...field}
                 type={type}
                 disabled={disabled}
-                isValid={form.touched[field.name] && isValid}
                 isInvalid={isInvalid}
                 feedback={form.errors[field.name]}
               />
@@ -36,6 +44,7 @@ const FormInput = (props) => {
 
 FormInput.defaultProps = {
   type: "text",
+  tooltip: null,
   inputGroupPrepend: null,
 };
 

@@ -1,10 +1,18 @@
 import {Field} from "formik";
 import React from "react";
 import {Form, InputGroup} from "react-bootstrap";
+import InfoToolTip from "../InfoToolTip";
 
 const FormSelect = (props) => {
-  const {as, md, controlId, label, name, disabled, type, inputGroupPrepend, options} =
-    props;
+  const {as, md, controlId, label, name, disabled, type, inputGroupPrepend, options, tooltip} = props;
+
+  const displayLabel = tooltip ? (
+    <>
+      {label + " "}
+      <InfoToolTip id={`${controlId}-tooltip`} info={tooltip}/>
+    </>
+  ) : label;
+
   return (
     <Field name={name}>
       {({field, form}) => {
@@ -12,17 +20,15 @@ const FormSelect = (props) => {
         const isInvalid = form.touched[field.name] && !isValid;
         return (
           <Form.Group as={as} md={md} controlId={controlId} className="mb-md-2">
-            <Form.Label>{label}</Form.Label>
+            <Form.Label>{displayLabel}</Form.Label>
             <InputGroup>
               {inputGroupPrepend}
-              <Form.Control
+              <Form.Select
                 {...field}
                 type={type}
                 disabled={disabled}
-                isValid={form.touched[field.name] && isValid}
                 isInvalid={isInvalid}
                 feedback={form.errors[field.name]}
-                as="select"
               >
                 {options.map((option) => {
                   return (
@@ -31,7 +37,7 @@ const FormSelect = (props) => {
                     </option>
                   );
                 })}
-              </Form.Control>
+              </Form.Select>
               <Form.Control.Feedback type="invalid">
                 {form.errors[field.name]}
               </Form.Control.Feedback>
@@ -45,6 +51,7 @@ const FormSelect = (props) => {
 
 FormSelect.defaultProps = {
   type: "select",
+  tooltip: null,
   inputGroupPrepend: null,
 };
 

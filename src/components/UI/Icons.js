@@ -2,7 +2,9 @@ import React from "react";
 
 export const EditIcon = () => {
   return (
-    <img src={process.env.PUBLIC_URL + "/assets/icons/pencil.svg"} alt="edit" />
+    <img src={process.env.PUBLIC_URL + "/assets/icons/pencil.svg"}
+         alt="edit"
+    />
   );
 };
 
@@ -23,3 +25,12 @@ export const AddUserIcon = () => {
     />
   );
 };
+
+export const InfoIcon = () => {
+  return (
+    <img
+      src={process.env.PUBLIC_URL + "/assets/icons/info.svg"}
+      alt="info"
+    />
+  );
+}

@@ -1,9 +1,17 @@
 import {Field} from "formik";
 import React from "react";
 import {Form, InputGroup} from "react-bootstrap";
+import InfoToolTip from "../InfoToolTip";
 
 const FormCheckbox = (props) => {
-  const {controlId, label, name, disabled} = props;
+  const {controlId, label, name, disabled, tooltip} = props;
+
+  const displayLabel = tooltip ? (
+    <>
+      {label + " "}
+      <InfoToolTip id={`${controlId}-tooltip`} info={tooltip}/>
+    </>
+  ) : label;
 
   return (
     <Field name={name}>
@@ -16,7 +24,7 @@ const FormCheckbox = (props) => {
                 className="mx-md-2"
                 type="checkbox"
                 disabled={disabled}
-                label={label}
+                label={displayLabel}
                 isInvalid={form.touched[field.name] && form.errors[field.name]}
                 feedback={form.errors[field.name]}
               />

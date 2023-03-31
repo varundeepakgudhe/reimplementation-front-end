@@ -1,7 +1,7 @@
-import { Fragment } from "react";
-import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { EditIcon, RemoveUserIcon } from "../UI/Icons";
+import {Fragment} from "react";
+import {Button} from "react-bootstrap";
+import {Link} from "react-router-dom";
+import {EditIcon, RemoveUserIcon} from "../UI/Icons";
 
 export const USER_COLUMNS = (handleDelete, handleEdit) => [
   {
@@ -12,7 +12,7 @@ export const USER_COLUMNS = (handleDelete, handleEdit) => [
   {
     Header: "Username",
     accessor: "name",
-    Cell: ({ row }) => (
+    Cell: ({row}) => (
       <Link to={`/users/${row.original.id}`}> {row.original.name}</Link>
     ),
   },
@@ -63,7 +63,7 @@ export const USER_COLUMNS = (handleDelete, handleEdit) => [
   {
     id: "actions",
     Header: "Actions",
-    Cell: ({ row }) => {
+    Cell: ({row}) => {
       return (
         <Fragment>
           <Button
@@ -71,7 +71,7 @@ export const USER_COLUMNS = (handleDelete, handleEdit) => [
             size="sm"
             onClick={() => handleEdit(row)}
           >
-            <EditIcon />
+            <EditIcon/>
           </Button>
           <Button
             variant="outline-danger"
@@ -79,7 +79,7 @@ export const USER_COLUMNS = (handleDelete, handleEdit) => [
             className="ms-sm-2"
             onClick={() => handleDelete(row)}
           >
-            <RemoveUserIcon />
+            <RemoveUserIcon/>
           </Button>
         </Fragment>
       );
