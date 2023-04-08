@@ -26,6 +26,15 @@ export const AddUserIcon = () => {
   );
 };
 
+export const AddQuestionnaireIcon = () => {
+  return (
+    <img
+      src={process.env.PUBLIC_URL + "/assets/icons/user-add.svg"}
+      alt="add"
+    />
+  );
+};
+
 export const InfoIcon = () => {
   return (
     <img

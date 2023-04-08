@@ -60,7 +60,7 @@ const Header = () => {
                 <NavDropdown.Item as={Link} to="/assignments">
                   Assignments
                 </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/questionnaire">
+                <NavDropdown.Item as={Link} to="/questionnaires">
                   Questionnaire
                 </NavDropdown.Item>
                 <NavDropdown.Divider/>
