@@ -108,12 +108,12 @@ const CreateQuestionnaire = ({onClose}) => {
                   name="name"
 
                 />
-                {/* <FormSelect
+                <FormSelect
                   controlId="questionnaire-instructor-id"
                   label="Instructor ID"
                   name="instructor_id"
                   // options={instructors}
-                /> */}
+                />
                 <FormCheckboxGroup
                   controlId="questionnaire-private"
                   label="Private"
@@ -134,7 +134,7 @@ const CreateQuestionnaire = ({onClose}) => {
                     name="max_question_score"
                   />
                 </Row>
-                  {/* <FormSelect
+                  <FormSelect
                    controlId="questionnaire-type"
                    label="Type"
                     name="type"
@@ -145,7 +145,7 @@ const CreateQuestionnaire = ({onClose}) => {
                     label="Display Type"
                     name="display_type"
                     // options={displayTypes}
-                  /> */}
+                  />
                   <FormInput
                     controlId="questionnaire-instruction-loc"
                     label="Instruction Location"
