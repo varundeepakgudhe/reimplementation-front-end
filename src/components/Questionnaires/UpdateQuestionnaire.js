@@ -8,7 +8,7 @@ import {alertActions} from "../../store/alert";
 import FormCheckboxGroup from "../UI/Form/FormCheckboxGroup";
 import FormInput from "../UI/Form/FormInput";
 import FormSelect from "../UI/Form/FormSelect";
-import {emailOptions, transformInstitutionsResponse, transformRolesResponse, transformUserRequest,} from "./util";
+import {transformQuestionnaireRequest,} from "./util";
 
 // Get the logged-in user from the session
 const loggedInUser = null;
@@ -55,13 +55,6 @@ const UpdateUser = ({userData, onClose}) => {
   } = useAPI();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    fetchRoles({url: "/roles", transformResponse: transformRolesResponse});
-    fetchInstitutions({
-      url: "/institutions",
-      transformResponse: transformInstitutionsResponse,
-    });
-  }, [fetchRoles, fetchInstitutions]);
 
   // Close the modal if the user is updated successfully and pass the updated user to the parent component
   useEffect(() => {
@@ -87,7 +80,7 @@ const UpdateUser = ({userData, onClose}) => {
       url: `/users/${userId}`,
       method: "patch",
       data: {...values, parent: loggedInUser},
-      transformRequest: transformUserRequest,
+      transformRequest: transformQuestionnaireRequest,
     });
     submitProps.resetForm();
     submitProps.setSubmitting(false);
@@ -157,7 +150,7 @@ const UpdateUser = ({userData, onClose}) => {
                   controlId="email-pref"
                   label="Email Preferences"
                   name="emailPreferences"
-                  options={emailOptions}
+                  // options={emailOptions}
                 />
                 <FormSelect
                   controlId="user-institution"

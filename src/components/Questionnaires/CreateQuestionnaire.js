@@ -8,20 +8,26 @@ import {alertActions} from "../../store/alert";
 import FormCheckboxGroup from "../UI/Form/FormCheckboxGroup";
 import FormInput from "../UI/Form/FormInput";
 import FormSelect from "../UI/Form/FormSelect";
-import {emailOptions, transformInstitutionsResponse, transformRolesResponse, transformUserRequest,} from "./util";
+import { transformQuestionnaireRequest} from "./util";
+// import {FormCheckbox} from "react-bootstrap";
+
 
 // Get the logged-in user from the session
 const loggedInUser = null;
 
 const initialValues = {
   name: "",
-  email: "",
-  firstName: "",
-  lastName: "",
-  emailPreferences: [],
-  institution: "",
-  role: "",
+  instructor_id: "",
+  private: false,
+  min_question_score: 0,
+  max_question_score: null,
+  created_at: null,
+  updated_at: null,
+  type: "",
+  display_type: "",
+  instruction_loc: ""
 };
+
 
 const validationSchema = Yup.object({
   name: Yup.string()
@@ -29,54 +35,41 @@ const validationSchema = Yup.object({
     .lowercase("Username must be lowercase")
     .min(3, "Username must be at least 3 characters")
     .max(20, "Username must be at most 20 characters"),
-  email: Yup.string().required("Required").email("Invalid email format"),
-  firstName: Yup.string().required("Required").nonNullable(),
-  lastName: Yup.string().required("Required").nonNullable(),
-  role: Yup.string().required("Required").nonNullable(),
-  institution: Yup.string().required("Required").nonNullable(),
+
 });
 
-const CreateUser = ({onClose}) => {
+const CreateQuestionnaire = ({onClose}) => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(true);
-  const {data: roles, sendRequest: fetchRoles} = useAPI();
-  const {data: institutions, sendRequest: fetchInstitutions} = useAPI();
   const {
-    data: createdUser,
-    error: userError,
-    sendRequest: createUser,
+    data: createdQuestionnaire,
+    error: questionnaireError,
+    sendRequest: createQuestionnaire,
   } = useAPI();
 
-  useEffect(() => {
-    fetchRoles({url: "/roles", transformResponse: transformRolesResponse});
-    fetchInstitutions({
-      url: "/institutions",
-      transformResponse: transformInstitutionsResponse,
-    });
-  }, [fetchRoles, fetchInstitutions]);
 
   useEffect(() => {
-    if (userError) {
+    if (questionnaireError) {
       dispatch(alertActions.showAlert({
         variant: "danger",
-        message: userError
+        message: questionnaireError
       }));
     }
-  }, [userError, dispatch]);
+  }, [questionnaireError, dispatch]);
 
   useEffect(() => {
-    if (createdUser.length > 0) {
+    if (createdQuestionnaire.length > 0) {
       setShow(false);
-      onClose(createdUser[0]);
+      onClose(createdQuestionnaire[0]);
     }
-  }, [userError, createdUser, onClose]);
+  }, [questionnaireError, createdQuestionnaire, onClose]);
 
   const onSubmit = (values, submitProps) => {
-    createUser({
-      url: "/users",
+    createQuestionnaire({
+      url: "/questionnaires",
       method: "post",
       data: {...values, parent: loggedInUser},
-      transformRequest: transformUserRequest,
+      transformRequest: transformQuestionnaireRequest,
     });
     submitProps.resetForm();
     submitProps.setSubmitting(false);
@@ -96,7 +89,7 @@ const CreateUser = ({onClose}) => {
       backdrop="static"
     >
       <Modal.Header closeButton>
-        <Modal.Title>Create User</Modal.Title>
+        <Modal.Title>Create Questionnaire</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Formik
@@ -108,54 +101,56 @@ const CreateUser = ({onClose}) => {
           {(formik) => {
             return (
               <Form>
-                <FormSelect
-                  controlId="user-role"
-                  name="role"
-                  options={roles}
-                  inputGroupPrepend={
-                    <InputGroup.Text id="role-prepend">Role</InputGroup.Text>
-                  }
-                />
+
                 <FormInput
-                  controlId="user-name"
-                  label="Username"
+                  controlId="questionnaire-name"
+                  label="Name"
                   name="name"
-                  inputGroupPrepend={
-                    <InputGroup.Text id="user-name-prep">@</InputGroup.Text>
-                  }
+
                 />
+                {/* <FormSelect
+                  controlId="questionnaire-instructor-id"
+                  label="Instructor ID"
+                  name="instructor_id"
+                  // options={instructors}
+                /> */}
+                <FormCheckboxGroup
+                  controlId="questionnaire-private"
+                  label="Private"
+                  name="private"
+                 />
+
                 <Row>
                   <FormInput
                     as={Col}
-                    controlId="user-first-name"
-                    label="First name"
-                    name="firstName"
+                    controlId="questionnaire-min-question-score"
+                    label="Minimum Question Score"
+                    name="min_question_score"
                   />
                   <FormInput
                     as={Col}
-                    controlId="user-last-name"
-                    label="Last name"
-                    name="lastName"
+                    controlId="questionnaire-max-question-score"
+                    label="Maximum Question Score"
+                    name="max_question_score"
                   />
                 </Row>
-                <FormInput controlId="user-email" label="Email" name="email"/>
-
-                <FormCheckboxGroup
-                  controlId="email-pref"
-                  label="Email Preferences"
-                  name="emailPreferences"
-                  options={emailOptions}
+                  {/* <FormSelect
+                   controlId="questionnaire-type"
+                   label="Type"
+                    name="type"
+                    // options={types}
                 />
-                <FormSelect
-                  controlId="user-institution"
-                  name="institution"
-                  options={institutions}
-                  inputGroupPrepend={
-                    <InputGroup.Text id="user-inst-prep">
-                      Institution
-                    </InputGroup.Text>
-                  }
-                />
+                  <FormSelect
+                    controlId="questionnaire-display-type"
+                    label="Display Type"
+                    name="display_type"
+                    // options={displayTypes}
+                  /> */}
+                  <FormInput
+                    controlId="questionnaire-instruction-loc"
+                    label="Instruction Location"
+                    name="instruction_loc"
+                  />
 
                 <Modal.Footer>
                   <Button variant="outline-secondary" onClick={handleClose}>
@@ -168,7 +163,7 @@ const CreateUser = ({onClose}) => {
                       !(formik.isValid && formik.dirty) || formik.isSubmitting
                     }
                   >
-                    Create User
+                    Create Questionnaire
                   </Button>
                 </Modal.Footer>
               </Form>
@@ -180,4 +175,4 @@ const CreateUser = ({onClose}) => {
   );
 };
 
-export default CreateUser;
+export default CreateQuestionnaire;
