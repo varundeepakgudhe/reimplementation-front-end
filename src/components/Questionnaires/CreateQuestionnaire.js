@@ -8,7 +8,7 @@ import {alertActions} from "../../store/alert";
 import FormCheckboxGroup from "../UI/Form/FormCheckboxGroup";
 import FormInput from "../UI/Form/FormInput";
 import FormSelect from "../UI/Form/FormSelect";
-import { transformQuestionnaireRequest} from "./util";
+import { q_private,instructors,types,displayTypes,transformQuestionnaireRequest} from "./util";
 // import {FormCheckbox} from "react-bootstrap";
 
 
@@ -108,16 +108,21 @@ const CreateQuestionnaire = ({onClose}) => {
                   name="name"
 
                 />
-                {/* <FormSelect
+                <FormSelect
                   controlId="questionnaire-instructor-id"
-                  label="Instructor ID"
+                  // label="Instructor ID"
                   name="instructor_id"
-                  // options={instructors}
-                /> */}
+                  options={instructors}
+                  inputGroupPrepend={
+                    <InputGroup.Text id="instructor_id">Instructor_id</InputGroup.Text>
+                  }
+                />
+                
                 {/* <FormCheckboxGroup
                   controlId="questionnaire-private"
                   label="Private"
                   name="private"
+                  options={q_private}
                  /> */}
 
                 <Row>
@@ -134,18 +139,25 @@ const CreateQuestionnaire = ({onClose}) => {
                     name="max_question_score"
                   />
                 </Row>
-                  {/* <FormSelect
+                  <FormSelect
                    controlId="questionnaire-type"
-                   label="Type"
-                    name="type"
-                    // options={types}
+                  //  label="Type"
+                   name="type"
+                   options={types}
+                   inputGroupPrepend={
+                    <InputGroup.Text id="type">Questionnaire Type</InputGroup.Text>
+                  }
                   />
                   <FormSelect
                     controlId="questionnaire-display-type"
-                    label="Display Type"
+                    // label="Display Type"
                     name="display_type"
-                    // options={displayTypes}
-                  /> */}
+                    options={displayTypes}
+                    inputGroupPrepend={
+                      <InputGroup.Text id="d_type">Display Type</InputGroup.Text>
+                    }
+
+                  />
                   <FormInput
                     controlId="questionnaire-instruction-loc"
                     label="Instruction Location"
