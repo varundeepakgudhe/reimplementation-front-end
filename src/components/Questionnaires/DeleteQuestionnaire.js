@@ -4,33 +4,33 @@ import {useDispatch} from "react-redux";
 import useAPI from "../../hooks/use-api";
 import {alertActions} from "../../store/alert";
 
-const DeleteUser = ({userData, onClose}) => {
+const DeleteQuestionnaire = ({questionnaireData, onClose}) => {
   const dispatch = useDispatch();
   const {
-    data: deletedUser,
-    error: userError,
-    sendRequest: deleteUser,
+    data: deletedQuestionnaire,
+    error: questionnaireError,
+    sendRequest: deleteQuestionnaire,
   } = useAPI();
   const [show, setShow] = useState(true);
 
   const deleteHandler = () =>
-    deleteUser({url: `/users/${userData.id}`, method: "DELETE"});
+    deleteQuestionnaire({url: `/questionnaires/${questionnaireData.id}`, method: "DELETE"});
 
   useEffect(() => {
-    if (userError) {
+    if (questionnaireError) {
       dispatch(alertActions.showAlert({
         variant: "danger",
-        message: userError,
+        message: questionnaireError,
       }));
     }
-  }, [userError, dispatch]);
+  }, [questionnaireError, dispatch]);
 
   useEffect(() => {
-    if (deletedUser.length > 0) {
+    if (deletedQuestionnaire.length > 0) {
       setShow(false);
-      onClose(deletedUser[0]);
+      onClose(deletedQuestionnaire[0]);
     }
-  }, [deletedUser, onClose]);
+  }, [deletedQuestionnaire, onClose]);
 
   const closeHandler = () => {
     setShow(false);
@@ -40,11 +40,11 @@ const DeleteUser = ({userData, onClose}) => {
   return (
     <Modal show={show} onHide={closeHandler}>
       <Modal.Header closeButton>
-        <Modal.Title>Delete User</Modal.Title>
+        <Modal.Title>Delete Questionnaire</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <p>
-          Are you sure you want to delete user <b>{userData.name}?</b>
+          Are you sure you want to delete questionnaire <b>{questionnaireData.name}?</b>
         </p>
       </Modal.Body>
       <Modal.Footer>
@@ -59,4 +59,4 @@ const DeleteUser = ({userData, onClose}) => {
   );
 };
 
-export default DeleteUser;
+export default DeleteQuestionnaire;

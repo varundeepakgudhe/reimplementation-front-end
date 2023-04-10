@@ -77,7 +77,7 @@ const UpdateUser = ({userData, onClose}) => {
   const onSubmit = (values, submitProps) => {
     const userId = userData.id;
     updateUser({
-      url: `/users/${userId}`,
+      url: `/questionnaires/${userId}`,
       method: "patch",
       data: {...values, parent: loggedInUser},
       transformRequest: transformQuestionnaireRequest,
