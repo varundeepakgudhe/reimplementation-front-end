@@ -26,7 +26,7 @@ export const QUESTIONNAIRE_COLUMNS = (handleDelete, handleEdit) => [
   },
   {
     Header: "Instructor",
-    accessor: (d) => d.instructor.name,
+    accessor: (d) => d.instructor,
     disableFilters: true,
   },
   {
