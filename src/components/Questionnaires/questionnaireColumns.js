@@ -3,7 +3,7 @@ import {Button} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {EditIcon, RemoveUserIcon} from "../UI/Icons";
 
-export const QUESTIONNAIRE_COLUMNS = (handleDelete, handleEdit) => [
+export const QUESTIONNAIRE_COLUMNS = [
   {
     Header: "Id",
     accessor: "id",
@@ -12,9 +12,9 @@ export const QUESTIONNAIRE_COLUMNS = (handleDelete, handleEdit) => [
   {
     Header: "Name",
     accessor: "name",
-    Cell: ({row}) => (
-      <Link to={`/questionnaires/${row.original.id}`}> {row.original.name}</Link>
-    ),
+    //Cell: ({row}) => (
+    // <Link to={`/questionnaires/${row.original.id}`}> {row.original.name}</Link>
+    // ),
   },
   {
     Header: "Type",
@@ -47,26 +47,26 @@ export const QUESTIONNAIRE_COLUMNS = (handleDelete, handleEdit) => [
   {
     id: "actions",
     Header: "Actions",
-    Cell: ({row}) => {
-      return (
-        <Fragment>
-          <Button
-            variant="outline-warning"
-            size="sm"
-            onClick={() => handleEdit(row)}
-          >
-            <EditIcon/>
-          </Button>
-          <Button
-            variant="outline-danger"
-            size="sm"
-            className="ms-sm-2"
-            onClick={() => handleDelete(row)}
-          >
-            <RemoveUserIcon/>
-          </Button>
-        </Fragment>
-      );
-    },
+    // Cell: ({row}) => {
+    //   return (
+    //     <Fragment>
+    //       <Button
+    //         variant="outline-warning"
+    //         size="sm"
+    //         onClick={() => handleEdit(row)}
+    //       >
+    //         <EditIcon/>
+    //       </Button>
+    //       <Button
+    //         variant="outline-danger"
+    //         size="sm"
+    //         className="ms-sm-2"
+    //         onClick={() => handleDelete(row)}
+    //       >
+    //         <RemoveUserIcon/>
+    //       </Button>
+    //     </Fragment>
+    //   );
+    // },
   },
 ];

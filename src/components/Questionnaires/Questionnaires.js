@@ -9,7 +9,7 @@ import CreateQuestionnaire from "./CreateQuestionnaire";
 import DeleteQuestionnaire from "./DeleteQuestionnaire";
 import UpdateQuestionnaire from "./UpdateQuestionnaire";
 import {QUESTIONNAIRE_COLUMNS} from "./questionnaireColumns";
-import record_data from './records.json'; // for testing
+import DATA from "./records.json";
 
 const Questionnaires = () => {
   const dispatch = useDispatch();
@@ -96,14 +96,11 @@ const Questionnaires = () => {
   const onDeleteHandle = (row) =>
     setShowDeleteConfirmation({visible: true, data: row.original});
 
-  const tableColumns = useMemo(
-    () => QUESTIONNAIRE_COLUMNS(onDeleteHandle, onEditHandle),
-    []
-  );
-  const tableData = useMemo(
-    () => (isLoading ? [] : questionnaireData),
-    [questionnaireData, isLoading]
-  );
+  const tableColumns = QUESTIONNAIRE_COLUMNS;
+
+  const tableData = DATA;
+  //const tableData = React.useMemo(() => DATA, []);
+  
   const initialState = {hiddenColumns: ["id", "institution"]};
 
   return (
