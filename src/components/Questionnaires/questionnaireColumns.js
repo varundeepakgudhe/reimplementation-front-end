@@ -1,7 +1,7 @@
 import {Fragment} from "react";
 import {Button} from "react-bootstrap";
 import {Link} from "react-router-dom";
-import {EditIcon, RemoveUserIcon} from "../UI/Icons";
+import {EditIcon, RemoveQuestionnaireIcon} from "../UI/Icons";
 
 export const QUESTIONNAIRE_COLUMNS = (handleDelete, handleEdit) => [
   {
@@ -63,7 +63,7 @@ export const QUESTIONNAIRE_COLUMNS = (handleDelete, handleEdit) => [
             className="ms-sm-2"
             onClick={() => handleDelete(row)}
           >
-            <RemoveUserIcon/>
+            <RemoveQuestionnaireIcon/>
           </Button>
         </Fragment>
       );
