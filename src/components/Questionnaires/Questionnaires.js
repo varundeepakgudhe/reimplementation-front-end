@@ -9,7 +9,7 @@ import CreateQuestionnaire from "./CreateQuestionnaire";
 import DeleteQuestionnaire from "./DeleteQuestionnaire";
 import UpdateQuestionnaire from "./UpdateQuestionnaire";
 import {QUESTIONNAIRE_COLUMNS} from "./questionnaireColumns";
-import record_data from './records.json'; // for testing
+//import record_data from './records.json'; // for testing
 
 const Questionnaires = () => {
   const dispatch = useDispatch();
