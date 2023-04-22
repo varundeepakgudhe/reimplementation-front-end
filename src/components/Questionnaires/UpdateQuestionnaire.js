@@ -8,76 +8,69 @@ import {alertActions} from "../../store/alert";
 import FormCheckboxGroup from "../UI/Form/FormCheckboxGroup";
 import FormInput from "../UI/Form/FormInput";
 import FormSelect from "../UI/Form/FormSelect";
-import {transformQuestionnaireRequest,} from "./util";
+
+import {QUESTIONNAIRE_TYPES, questionnaireTypesOptions ,q_private,transformQuestionnaireRequest,transformTypesResponse,} from "./util";
 
 // Get the logged-in user from the session
 const loggedInUser = null;
-const initialValues = (user) => {
-  const [lastName, firstName] = user.fullname.split(",");
-  const emailPreferences = [
-    "email_on_review",
-    "email_on_review_of_review",
-    "email_on_submission",
-  ].filter((pref) => user[pref]);
+const initialValues = (questionnaire) => {
 
   return {
-    name: user.name,
-    email: user.email,
-    firstName: firstName.trim(),
-    lastName: lastName.trim(),
-    emailPreferences: emailPreferences,
-    institution: user.institution.id ? user.institution.id : "",
-    role: user.role.id,
+    name: questionnaire.name,
+    private: questionnaire.q_private,
+    min_question_score: questionnaire.min_question_score,
+    max_question_score: questionnaire.max_question_score,
+    type: questionnaire.type.id,
+    instruction_loc: questionnaire.instruction_loc
   };
 };
+
 
 const validationSchema = Yup.object({
   name: Yup.string()
     .required("Required")
-    .lowercase("Username must be lowercase")
-    .min(3, "Username must be at least 3 characters")
-    .max(20, "Username must be at most 20 characters"),
-  email: Yup.string().required("Required").email("Invalid email format"),
-  firstName: Yup.string().required("Required").nonNullable(),
-  lastName: Yup.string().required("Required").nonNullable(),
-  role: Yup.string().required("Required").nonNullable(),
-  institution: Yup.string().required("Required").nonNullable(),
+    .min(3, "Questionnaire name must be at least 3 characters")
+    .max(40, "Questionnaire name must be at most 40 characters"),
+    private: Yup.boolean().required(),
+    min_question_score: Yup.number().min(0).required(),
+    max_question_score: Yup.number().allow(null),
+    type: Yup.string().required(),
+    instruction_loc: Yup.string().required()
+
 });
 
-const UpdateUser = ({userData, onClose}) => {
+const UpdateQuestionnaire = ({questionnaireData, onClose}) => {
   const [show, setShow] = useState(true);
-  const {data: roles, sendRequest: fetchRoles} = useAPI();
-  const {data: institutions, sendRequest: fetchInstitutions} = useAPI();
   const {
-    data: updatedUser,
-    error: userError,
-    sendRequest: updateUser,
+    data: updatedQuestionnaire,
+    error: questionnaireError,
+    sendRequest: updateQuestionnaire,
   } = useAPI();
   const dispatch = useDispatch();
 
 
   // Close the modal if the user is updated successfully and pass the updated user to the parent component
   useEffect(() => {
-    if (updatedUser.length > 0) {
-      console.log("user updated");
-      onClose(updatedUser[0]);
+    if (updatedQuestionnaire.length > 0) {
+      console.log("questionnaire updated");
+      onClose(updatedQuestionnaire[0]);
       setShow(false);
     }
-  }, [userError, updatedUser, onClose]);
+  }, [questionnaireError, updatedQuestionnaire, onClose]);
 
   useEffect(() => {
-    if (userError) {
+    if (questionnaireError) {
       dispatch(alertActions.showAlert({
         variant: "danger",
-        message: userError,
+        message: questionnaireError,
       }));
     }
-  }, [userError, dispatch]);
+  }, [questionnaireError, dispatch]);
 
   const onSubmit = (values, submitProps) => {
-    const userId = userData.id;
-    updateUser({
-      url: `/questionnaires/${userId}`,
+    const questionnaireId = questionnaireData.id;
+    updateQuestionnaire({
+      url: `/questionnaires/${questionnaireId}`,
       method: "patch",
       data: {...values, parent: loggedInUser},
       transformRequest: transformQuestionnaireRequest,
@@ -100,12 +93,12 @@ const UpdateUser = ({userData, onClose}) => {
       backdrop="static"
     >
       <Modal.Header closeButton>
-        <Modal.Title>Update User</Modal.Title>
+        <Modal.Title>Update Questionnaire</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {userError && <p className="text-danger">{userError}</p>}
+        {questionnaireError && <p className="text-danger">{questionnaireError}</p>}
         <Formik
-          initialValues={initialValues(userData)}
+          initialValues={initialValues(questionnaireData)}
           onSubmit={onSubmit}
           validationSchema={validationSchema}
           validateOnChange={false}
@@ -114,55 +107,40 @@ const UpdateUser = ({userData, onClose}) => {
           {(formik) => {
             return (
               <Form>
-                <FormSelect
-                  controlId="user-role"
-                  name="role"
-                  options={roles}
-                  inputGroupPrepend={
-                    <InputGroup.Text id="role-prepend">Role</InputGroup.Text>
-                  }
-                />
+
                 <FormInput
-                  controlId="user-name"
-                  label="Username"
+                  controlId="questionnaire-name"
+                  label="Name"
                   name="name"
-                  disabled={true}
-                  inputGroupPrepend={
-                    <InputGroup.Text id="user-name-prep">@</InputGroup.Text>
-                  }
                 />
+                
                 <Row>
                   <FormInput
-                    as={Col}
-                    controlId="user-first-name"
-                    label="First name"
-                    name="firstName"
-                  />
-                  <FormInput
-                    as={Col}
-                    controlId="user-last-name"
-                    label="Last name"
-                    name="lastName"
-                  />
+                      as={Col}
+                      controlId="questionnaire-min-question-score"
+                      label="Minimum Question Score"
+                      name="min_question_score"
+                    />
+                    <FormInput
+                      as={Col}
+                      controlId="questionnaire-max-question-score"
+                      label="Maximum Question Score"
+                      name="max_question_score"
+                    />
                 </Row>
-                <FormInput controlId="user-email" label="Email" name="email"/>
-                <FormCheckboxGroup
-                  controlId="email-pref"
-                  label="Email Preferences"
-                  name="emailPreferences"
-                  // options={emailOptions}
-                />
-                <FormSelect
-                  controlId="user-institution"
-                  name="institution"
-                  disabled={userData.institution.id}
-                  options={institutions}
-                  inputGroupPrepend={
-                    <InputGroup.Text id="user-inst-prep">
-                      Institution
-                    </InputGroup.Text>
-                  }
-                />
+                  <FormSelect
+                    controlId="questionnaire-type"
+                    //  label="Type"
+                    name="type"
+                    options={questionnaireTypesOptions}
+                    inputGroupPrepend={<InputGroup.Text id="type">Questionnaire Type</InputGroup.Text>}
+                    />
+                  <FormInput
+                    controlId="questionnaire-instruction-loc"
+                    label="Instruction Location"
+                    name="instruction_loc"
+                  /> 
+               
 
                 <Modal.Footer>
                   <Button variant="outline-secondary" onClick={handleClose}>
@@ -175,7 +153,7 @@ const UpdateUser = ({userData, onClose}) => {
                       !(formik.isValid && formik.dirty) || formik.isSubmitting
                     }
                   >
-                    Update User
+                    Update Questionnaire
                   </Button>
                 </Modal.Footer>
               </Form>
@@ -187,4 +165,4 @@ const UpdateUser = ({userData, onClose}) => {
   );
 };
 
-export default UpdateUser;
+export default UpdateQuestionnaire;

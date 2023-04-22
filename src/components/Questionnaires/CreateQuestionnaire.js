@@ -8,7 +8,7 @@ import {alertActions} from "../../store/alert";
 import FormCheckboxGroup from "../UI/Form/FormCheckboxGroup";
 import FormInput from "../UI/Form/FormInput";
 import FormSelect from "../UI/Form/FormSelect";
-import { q_private,instructors,types,displayTypes,transformQuestionnaireRequest} from "./util";
+import {QUESTIONNAIRE_TYPES, questionnaireTypesOptions ,q_private,transformQuestionnaireRequest,transformTypesResponse,} from "./util";
 // import {FormCheckbox} from "react-bootstrap";
 
 
@@ -32,11 +32,17 @@ const initialValues = {
 const validationSchema = Yup.object({
   name: Yup.string()
     .required("Required")
-    .lowercase("Username must be lowercase")
-    .min(3, "Username must be at least 3 characters")
-    .max(20, "Username must be at most 20 characters"),
+    .min(3, "Questionnaire name must be at least 3 characters")
+    .max(40, "Questionnaire name must be at most 40 characters"),
+    private: Yup.boolean().required(),
+    min_question_score: Yup.number().min(0).required(),
+    max_question_score: Yup.number().allow(null),
+    type: Yup.string().required(),
+    instruction_loc: Yup.string().required()
 
 });
+
+
 
 const CreateQuestionnaire = ({onClose}) => {
   const dispatch = useDispatch();
@@ -108,7 +114,7 @@ const CreateQuestionnaire = ({onClose}) => {
                   name="name"
 
                 />
-                <FormSelect
+                {/* <FormSelect
                   controlId="questionnaire-instructor-id"
                   // label="Instructor ID"
                   name="instructor_id"
@@ -116,14 +122,16 @@ const CreateQuestionnaire = ({onClose}) => {
                   inputGroupPrepend={
                     <InputGroup.Text id="instructor_id">Instructor_id</InputGroup.Text>
                   }
-                />
+                /> */}
                 
+
                 {/* <FormCheckboxGroup
                   controlId="questionnaire-private"
                   label="Private"
-                  name="private"
+                  name="q_private"
                   options={q_private}
-                 /> */}
+                 />
+                  */}
 
                 <Row>
                   <FormInput
@@ -143,12 +151,10 @@ const CreateQuestionnaire = ({onClose}) => {
                    controlId="questionnaire-type"
                   //  label="Type"
                    name="type"
-                   options={types}
-                   inputGroupPrepend={
-                    <InputGroup.Text id="type">Questionnaire Type</InputGroup.Text>
-                  }
-                  />
-                  <FormSelect
+                   options={questionnaireTypesOptions}
+                   inputGroupPrepend={<InputGroup.Text id="type">Questionnaire Type</InputGroup.Text>}
+                   />
+                  {/* <FormSelect
                     controlId="questionnaire-display-type"
                     // label="Display Type"
                     name="display_type"
@@ -157,7 +163,7 @@ const CreateQuestionnaire = ({onClose}) => {
                       <InputGroup.Text id="d_type">Display Type</InputGroup.Text>
                     }
 
-                  />
+                  /> */}
                   <FormInput
                     controlId="questionnaire-instruction-loc"
                     label="Instruction Location"
