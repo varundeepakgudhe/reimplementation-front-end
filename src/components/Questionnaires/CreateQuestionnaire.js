@@ -131,10 +131,9 @@ const CreateQuestionnaire = ({onClose}) => {
                 </Row>
                   <FormSelect
                    controlId="questionnaire-type"
-                  label="Type"
                    name="type"
                    options={questionnaireTypesOptions}
-                  //  inputGroupPrepend={<InputGroup.Text id="type">Questionnaire Type</InputGroup.Text>}
+                  inputGroupPrepend={<InputGroup.Text id="type">Questionnaire Type</InputGroup.Text>}
                    />
 
                 <Modal.Footer>

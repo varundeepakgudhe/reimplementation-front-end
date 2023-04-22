@@ -18,8 +18,8 @@ export const QUESTIONNAIRE_TYPES = [
 ];
 
 export const questionnaireTypesOptions = QUESTIONNAIRE_TYPES.map((type) => ({
-  key: QUESTIONNAIRE_TYPES.value,
-  value: QUESTIONNAIRE_TYPES.value
+  key: type,
+  value: type
 }));
 
 export const transformQuestionnaireRequest = (values, headers) => {
