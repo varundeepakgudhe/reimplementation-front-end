@@ -110,7 +110,7 @@ const Questionnaires = () => {
     <Container fluid className="px-md-4">
       <Row className="mt-md-2 mb-md-2">
         <Col md={{span: 4, offset: 4}}>
-          <h1>Manage Questionnaire</h1>
+          <h1>Manage Questionnaires</h1>
         </Col>
         <hr/>
       </Row>

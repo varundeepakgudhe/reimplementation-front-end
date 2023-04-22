@@ -22,6 +22,7 @@ export const transformInstitutionsResponse = (institutions) => {
   return institutionsData;
 };
 
+
 export const transformRolesResponse = (roles) => {
   let rolesData = [{key: "Select a Role", value: ""}];
   roles = JSON.parse(roles);
