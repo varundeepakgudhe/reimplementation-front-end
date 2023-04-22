@@ -5,11 +5,11 @@ import {useDispatch} from "react-redux";
 import * as Yup from "yup";
 import useAPI from "../../hooks/use-api";
 import {alertActions} from "../../store/alert";
-import FormCheckboxGroup from "../UI/Form/FormCheckboxGroup";
 import FormInput from "../UI/Form/FormInput";
 import FormSelect from "../UI/Form/FormSelect";
+import FormCheckbox from "../UI/Form/FormCheckbox";
 
-import {QUESTIONNAIRE_TYPES, questionnaireTypesOptions ,q_private,transformQuestionnaireRequest,transformTypesResponse,} from "./util";
+import {questionnaireTypesOptions,transformQuestionnaireRequest} from "./util";
 
 // Get the logged-in user from the session
 const loggedInUser = null;
@@ -17,26 +17,26 @@ const initialValues = (questionnaire) => {
 
   return {
     name: questionnaire.name,
-    private: questionnaire.q_private,
+    private: questionnaire.private,
     min_question_score: questionnaire.min_question_score,
     max_question_score: questionnaire.max_question_score,
-    type: questionnaire.type.id,
-    instruction_loc: questionnaire.instruction_loc
+    type: questionnaire.type,
   };
 };
-
 
 const validationSchema = Yup.object({
   name: Yup.string()
     .required("Required")
-    .min(3, "Questionnaire name must be at least 3 characters")
-    .max(40, "Questionnaire name must be at most 40 characters"),
-    private: Yup.boolean().required(),
-    min_question_score: Yup.number().min(0).required(),
-    max_question_score: Yup.number().allow(null),
-    type: Yup.string().required(),
-    instruction_loc: Yup.string().required()
-
+    .max(64, "Questionnaire name must be at most 64 characters"),
+  min_question_score: Yup.number()
+    .required("Required")
+    .moreThan(-1, "Must be 0 or greater.")
+    .integer("Must be integer."),
+  max_question_score: Yup.number()
+    .required("Required")
+    .moreThan(-1, "Must be 0 or greater.")
+    .moreThan(Yup.ref('min_question_score'), "Must be greater than the Minimum Question Score.")
+    .integer("Must be integer.")
 });
 
 const UpdateQuestionnaire = ({questionnaireData, onClose}) => {
@@ -113,6 +113,12 @@ const UpdateQuestionnaire = ({questionnaireData, onClose}) => {
                   label="Name"
                   name="name"
                 />
+
+                <FormCheckbox
+                  controlId="questionnaire-private"
+                  label="Private"
+                  name="private"
+                />
                 
                 <Row>
                   <FormInput
@@ -130,17 +136,10 @@ const UpdateQuestionnaire = ({questionnaireData, onClose}) => {
                 </Row>
                   <FormSelect
                     controlId="questionnaire-type"
-                    //  label="Type"
                     name="type"
                     options={questionnaireTypesOptions}
                     inputGroupPrepend={<InputGroup.Text id="type">Questionnaire Type</InputGroup.Text>}
-                    />
-                  <FormInput
-                    controlId="questionnaire-instruction-loc"
-                    label="Instruction Location"
-                    name="instruction_loc"
-                  /> 
-               
+                    />               
 
                 <Modal.Footer>
                   <Button variant="outline-secondary" onClick={handleClose}>

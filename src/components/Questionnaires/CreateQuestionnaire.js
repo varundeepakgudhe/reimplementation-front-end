@@ -5,11 +5,10 @@ import {useDispatch} from "react-redux";
 import * as Yup from "yup";
 import useAPI from "../../hooks/use-api";
 import {alertActions} from "../../store/alert";
-import FormCheckboxGroup from "../UI/Form/FormCheckboxGroup";
 import FormInput from "../UI/Form/FormInput";
 import FormSelect from "../UI/Form/FormSelect";
-import {QUESTIONNAIRE_TYPES, questionnaireTypesOptions ,q_private,transformQuestionnaireRequest,transformTypesResponse,} from "./util";
-// import {FormCheckbox} from "react-bootstrap";
+import FormCheckbox from "../UI/Form/FormCheckbox";
+import {questionnaireTypesOptions,transformQuestionnaireRequest} from "./util";
 
 
 // Get the logged-in user from the session
@@ -17,32 +16,27 @@ const loggedInUser = null;
 
 const initialValues = {
   name: "",
-  instructor_id: "",
+  instructor_id: 0,
   private: false,
   min_question_score: 0,
-  max_question_score: null,
-  created_at: null,
-  updated_at: null,
+  max_question_score: 10,
   type: "",
-  display_type: "",
-  instruction_loc: ""
 };
-
 
 const validationSchema = Yup.object({
   name: Yup.string()
     .required("Required")
-    .min(3, "Questionnaire name must be at least 3 characters")
-    .max(40, "Questionnaire name must be at most 40 characters"),
-    private: Yup.boolean().required(),
-    min_question_score: Yup.number().min(0).required(),
-    max_question_score: Yup.number().allow(null),
-    type: Yup.string().required(),
-    instruction_loc: Yup.string().required()
-
+    .max(64, "Questionnaire name must be at most 64 characters"),
+  min_question_score: Yup.number()
+    .required("Required")
+    .moreThan(-1, "Must be 0 or greater.")
+    .integer("Must be integer."),
+  max_question_score: Yup.number()
+    .required("Required")
+    .moreThan(-1, "Must be 0 or greater.")
+    .moreThan(Yup.ref('min_question_score'), "Must be greater than the Minimum Question Score.")
+    .integer("Must be integer.")
 });
-
-
 
 const CreateQuestionnaire = ({onClose}) => {
   const dispatch = useDispatch();
@@ -74,7 +68,7 @@ const CreateQuestionnaire = ({onClose}) => {
     createQuestionnaire({
       url: "/questionnaires",
       method: "post",
-      data: {...values, parent: loggedInUser},
+      data: {...values, instructor: loggedInUser},
       transformRequest: transformQuestionnaireRequest,
     });
     submitProps.resetForm();
@@ -114,24 +108,12 @@ const CreateQuestionnaire = ({onClose}) => {
                   name="name"
 
                 />
-                {/* <FormSelect
-                  controlId="questionnaire-instructor-id"
-                  // label="Instructor ID"
-                  name="instructor_id"
-                  options={instructors}
-                  inputGroupPrepend={
-                    <InputGroup.Text id="instructor_id">Instructor_id</InputGroup.Text>
-                  }
-                /> */}
-                
-
-                {/* <FormCheckboxGroup
+             
+                <FormCheckbox
                   controlId="questionnaire-private"
                   label="Private"
-                  name="q_private"
-                  options={q_private}
+                  name="private"
                  />
-                  */}
 
                 <Row>
                   <FormInput
@@ -149,26 +131,11 @@ const CreateQuestionnaire = ({onClose}) => {
                 </Row>
                   <FormSelect
                    controlId="questionnaire-type"
-                  //  label="Type"
+                  label="Type"
                    name="type"
                    options={questionnaireTypesOptions}
-                   inputGroupPrepend={<InputGroup.Text id="type">Questionnaire Type</InputGroup.Text>}
+                  //  inputGroupPrepend={<InputGroup.Text id="type">Questionnaire Type</InputGroup.Text>}
                    />
-                  {/* <FormSelect
-                    controlId="questionnaire-display-type"
-                    // label="Display Type"
-                    name="display_type"
-                    options={displayTypes}
-                    inputGroupPrepend={
-                      <InputGroup.Text id="d_type">Display Type</InputGroup.Text>
-                    }
-
-                  /> */}
-                  <FormInput
-                    controlId="questionnaire-instruction-loc"
-                    label="Instruction Location"
-                    name="instruction_loc"
-                  />
 
                 <Modal.Footer>
                   <Button variant="outline-secondary" onClick={handleClose}>
