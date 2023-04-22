@@ -49,7 +49,7 @@ const UpdateQuestionnaire = ({questionnaireData, onClose}) => {
   const dispatch = useDispatch();
 
 
-  // Close the modal if the user is updated successfully and pass the updated user to the parent component
+  // Close the modal if the questionnaire is updated successfully and pass the updated user to the instructor component
   useEffect(() => {
     if (updatedQuestionnaire.length > 0) {
       console.log("questionnaire updated");
@@ -72,7 +72,7 @@ const UpdateQuestionnaire = ({questionnaireData, onClose}) => {
     updateQuestionnaire({
       url: `/questionnaires/${questionnaireId}`,
       method: "patch",
-      data: {...values, parent: loggedInUser},
+      data: {...values, instructor: loggedInUser},
       transformRequest: transformQuestionnaireRequest,
     });
     submitProps.resetForm();
