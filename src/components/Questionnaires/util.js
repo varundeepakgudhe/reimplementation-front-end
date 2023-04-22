@@ -1,4 +1,4 @@
-export const QUESTIONNAIRE_TYPES = [
+export const QUESTIONNAIRE_TYPES = ['',
   'ReviewQuestionnaire',
   'MetareviewQuestionnaire',
   'Author FeedbackQuestionnaire',
