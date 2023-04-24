@@ -58,6 +58,7 @@ const CreateQuestionnaire = ({onClose}) => {
   }, [questionnaireError, dispatch]);
 
   useEffect(() => {
+    console.log(createdQuestionnaire)
     if (createdQuestionnaire.length > 0) {
       setShow(false);
       onClose(createdQuestionnaire[0]);

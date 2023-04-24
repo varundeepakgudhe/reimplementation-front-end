@@ -1,8 +1,8 @@
 import axios from "axios";
 import {useCallback, useState} from "react";
 
-//axios.defaults.baseURL = "http://localhost:3000/api/v1";
-axios.defaults.baseURL = "https://api.jsonbin.io/v3/b/64359edaebd26539d0a8ffd1";
+axios.defaults.baseURL = "http://localhost:3000/";
+//axios.defaults.baseURL = "https://api.jsonbin.io/v3/b/64359edaebd26539d0a8ffd1";
 axios.defaults.headers.common["Accept"] = "application/json";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.defaults.headers.put["Content-Type"] = "application/json";
@@ -21,6 +21,7 @@ const useAPI = () => {
     axios(requestConfig)
       .then((response) => {
           // if response if from delete request, response.data is null
+          console.log(response)
           if (response.config && response.config.method === "delete")
             setData([response.status]);
           else

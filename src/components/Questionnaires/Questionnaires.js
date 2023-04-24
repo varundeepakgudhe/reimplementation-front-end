@@ -31,7 +31,7 @@ const Questionnaires = () => {
     data: {},
   });
 
-  useEffect(() => fetchQuestionnaires({url: "", method: "get"}), [fetchQuestionnaires]);
+  useEffect(() => fetchQuestionnaires({url: "/questionnaires/", method: "get"}), [fetchQuestionnaires]);
 
   // Error alert
   useEffect(() => {
@@ -104,7 +104,7 @@ const Questionnaires = () => {
     () => (isLoading ? [] : questionnaireData),
     [questionnaireData, isLoading]
   );
-  const initialState = {hiddenColumns: ["id", "institution"]};
+  const initialState = {hiddenColumns: ["id"]};
 
   return (
     <Container fluid className="px-md-4">
