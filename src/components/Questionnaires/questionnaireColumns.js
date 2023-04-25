@@ -25,8 +25,8 @@ export const QUESTIONNAIRE_COLUMNS = (handleDelete, handleEdit) => [
     accessor: "updated_at",
   },
   {
-    Header: "Instructor",
-    accessor: (d) => d.instructor_id.name,
+    Header: "Instructor Id",
+    accessor: (d) => d.instructor_id,
     disableFilters: true,
   },
   {
