@@ -26,22 +26,22 @@ export const QUESTIONNAIRE_COLUMNS = (handleDelete, handleEdit) => [
   },
   {
     Header: "Instructor",
-    accessor: (d) => d.instructor,
+    accessor: (d) => d.instructor.name,
     disableFilters: true,
   },
   {
     Header: "Min Question Score",
-    accessor: (d) => d.min_question_score,
+    accessor: "min_question_score",
     disableFilters: true,
   },
   {
     Header: "Max Question Score",
-    accessor: (d) => d.max_question_score,
+    accessor: "max_question_score",
     disableFilters: true,
   },
   {
     Header: "Private",
-    accessor: (d) => d.private,
+    accessor: "private",
     disableFilters: true,
   },
   {

@@ -51,6 +51,7 @@ const UpdateQuestionnaire = ({questionnaireData, onClose}) => {
 
   // Close the modal if the questionnaire is updated successfully and pass the updated user to the instructor component
   useEffect(() => {
+    console.log(updateQuestionnaire)
     if (updatedQuestionnaire.length > 0) {
       console.log("questionnaire updated");
       onClose(updatedQuestionnaire[0]);
