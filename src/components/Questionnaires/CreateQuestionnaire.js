@@ -12,7 +12,7 @@ import {questionnaireTypesOptions,transformQuestionnaireRequest} from "./util";
 
 
 // Get the logged-in user from the session
-const loggedInUser = null;
+const loggedInUser = "1"; // set to 1 as logged-in user not implemented
 
 const initialValues = {
   name: "",

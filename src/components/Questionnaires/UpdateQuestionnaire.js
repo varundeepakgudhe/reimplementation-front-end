@@ -12,12 +12,17 @@ import FormCheckbox from "../UI/Form/FormCheckbox";
 import {questionnaireTypesOptions,transformQuestionnaireRequest} from "./util";
 
 // Get the logged-in user from the session
-const loggedInUser = null;
+const loggedInUser = "1"; // set to 1 as logged-in user not implemented
+
+const currDate = new Date().toLocaleDateString(); // current time
+
 const initialValues = (questionnaire) => {
 
   return {
     name: questionnaire.name,
     private: questionnaire.private,
+    updated_at: currDate,
+    instructor_id: loggedInUser,
     min_question_score: questionnaire.min_question_score,
     max_question_score: questionnaire.max_question_score,
     type: questionnaire.type,
