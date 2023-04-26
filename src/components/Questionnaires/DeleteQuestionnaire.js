@@ -13,6 +13,7 @@ const DeleteQuestionnaire = ({questionnaireData, onClose}) => {
   } = useAPI();
   const [show, setShow] = useState(true);
 
+  // methods to delete the questionnaire record using HTTP method and URI
   const deleteHandler = () =>
     deleteQuestionnaire({url: `/questionnaires/${questionnaireData.id}`, method: "DELETE"});
 
