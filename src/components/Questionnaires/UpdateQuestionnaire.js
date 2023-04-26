@@ -129,19 +129,21 @@ const UpdateQuestionnaire = ({questionnaireData, onClose}) => {
                   controlId="questionnaire-is-private"
                   label="Private"
                   name="is_private"
-                />  
+                /><br></br>
                 <Row>
                   <FormInput
                       as={Col}
                       controlId="questionnaire-min-question-score"
                       label="Minimum Question Score"
                       name="min_question_score"
+                      md="1" 
                     />
                     <FormInput
                       as={Col}
                       controlId="questionnaire-max-question-score"
                       label="Maximum Question Score"
                       name="max_question_score"
+                      md="1" 
                     />
                 </Row>
                   <FormSelect
