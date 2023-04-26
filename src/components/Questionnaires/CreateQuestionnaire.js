@@ -23,6 +23,8 @@ const initialValues = {
   type: "",
 };
 
+// Name, Minimum Question Score, and Maximum Question Score are Required.
+// Minimum Question Score must be >= 0 and Maximum Question Score must be > Minimimum QUestion Score.
 const validationSchema = Yup.object({
   name: Yup.string()
     .required("Required")
@@ -65,6 +67,7 @@ const CreateQuestionnaire = ({onClose}) => {
     }
   }, [questionnaireError, createdQuestionnaire, onClose]);
 
+  // method to create the questionnaire record using HTTP method and URI on submit
   const onSubmit = (values, submitProps) => {
     createQuestionnaire({
       url: "/questionnaires",
