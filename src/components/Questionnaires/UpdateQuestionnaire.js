@@ -12,7 +12,7 @@ import FormCheckbox from "../UI/Form/FormCheckbox";
 import {questionnaireTypesOptions,transformQuestionnaireRequest} from "./util";
 
 // Get the logged-in user from the session
-const loggedInUser = "1"; // set to 1 as logged-in user not implemented
+const loggedInUser = 1; // set to 1 as logged-in user not implemented
 
 const currDate = new Date().toLocaleDateString(); // current time
 
@@ -20,7 +20,7 @@ const initialValues = (questionnaire) => {
 
   return {
     name: questionnaire.name,
-    private: questionnaire.private,
+    is_private: questionnaire.is_private,
     updated_at: currDate,
     instructor_id: loggedInUser,
     min_question_score: questionnaire.min_question_score,
@@ -28,6 +28,8 @@ const initialValues = (questionnaire) => {
     type: questionnaire.type,
   };
 };
+
+
 
 const validationSchema = Yup.object({
   name: Yup.string()
@@ -121,11 +123,11 @@ const UpdateQuestionnaire = ({questionnaireData, onClose}) => {
                 />
 
                 <FormCheckbox
-                  controlId="questionnaire-private"
+                  defaultChecked={initialValues(questionnaireData).is_private}
+                  controlId="questionnaire-is-private"
                   label="Private"
-                  name="private"
-                />
-                
+                  name="is_private"
+                />  
                 <Row>
                   <FormInput
                       as={Col}

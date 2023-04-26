@@ -22,18 +22,6 @@ export const questionnaireTypesOptions = QUESTIONNAIRE_TYPES.map((type) => ({
   value: type
 }));
 
-export const transformInstructorResponse = (instructor) => {
-  let instructorData = [{key: "Select a Role", value: ""}];
-  instructor = JSON.parse(instructor);
-  instructorData = instructorData.concat(
-    instructor.map((role) => ({
-      key: role.name,
-      value: role.id,
-    }))
-  );
-  return instructorData;
-};
-
 export const transformQuestionnaireRequest = (values, headers) => {
   console.log("transformQuestionnaireRequest", values, headers);
   const questionnaire = {
@@ -42,7 +30,7 @@ export const transformQuestionnaireRequest = (values, headers) => {
     updated_at: values.updated_at,
     min_question_score: values.min_question_score,
     max_question_score: values.max_question_score,
-    is_private: values.private,
+    is_private: values.is_private,
     type: values.type
   };
   return JSON.stringify(questionnaire);

@@ -25,6 +25,7 @@ export const QUESTIONNAIRE_COLUMNS = (handleDelete, handleEdit) => [
     accessor: "updated_at",
   },
   {
+    id: "instructor_id",
     Header: "Instructor Id",
     accessor: (d) => d.instructor_id,
     disableFilters: true,
@@ -40,6 +41,7 @@ export const QUESTIONNAIRE_COLUMNS = (handleDelete, handleEdit) => [
     disableFilters: true,
   },
   {
+    id: "is_private",
     Header: "Private",
     accessor: (d) => d.is_private.toString(),
     disableFilters: true,
