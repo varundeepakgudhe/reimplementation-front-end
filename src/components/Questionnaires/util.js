@@ -27,8 +27,8 @@ export const transformQuestionnaireRequest = (values, headers) => {
   const questionnaire = {
     name: values.name,
     instructor_id: values.instructor,
-    min_question_score: values.min_question_score,
-    max_question_score: values.min_question_score,
+    min_item_score: values.min_item_score,
+    max_item_score: values.min_item_score,
     private: values.private,
     type: values.type
   };

@@ -119,14 +119,14 @@ const CreateQuestionnaire = ({onClose}) => {
                   <FormInput
                     as={Col}
                     controlId="questionnaire-min-question-score"
-                    label="Minimum Question Score"
-                    name="min_question_score"
+                    label="Minimum Item Score"
+                    name="min_item_score"
                   />
                   <FormInput
                     as={Col}
                     controlId="questionnaire-max-question-score"
-                    label="Maximum Question Score"
-                    name="max_question_score"
+                    label="Maximum Item Score"
+                    name="max_item_score"
                   />
                 </Row>
                   <FormSelect
