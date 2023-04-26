@@ -12,12 +12,12 @@ import {questionnaireTypesOptions,transformQuestionnaireRequest} from "./util";
 
 
 // Get the logged-in user from the session
-const loggedInUser = null;
+const loggedInUser = 1; // set to 1 as logged-in user not implemented
 
 const initialValues = {
   name: "",
-  instructor_id: 0,
-  private: false,
+  instructor_id: loggedInUser,
+  is_private: false,
   min_question_score: 0,
   max_question_score: 10,
   type: "",
@@ -111,9 +111,9 @@ const CreateQuestionnaire = ({onClose}) => {
                 />
              
                 <FormCheckbox
-                  controlId="questionnaire-private"
+                  controlId="questionnaire-is-private"
                   label="Private"
-                  name="private"
+                  name="is_private"
                  />
 
                 <Row>

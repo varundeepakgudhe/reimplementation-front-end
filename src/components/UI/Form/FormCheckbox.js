@@ -4,7 +4,7 @@ import {Form, InputGroup} from "react-bootstrap";
 import InfoToolTip from "../InfoToolTip";
 
 const FormCheckbox = (props) => {
-  const {controlId, label, name, disabled, tooltip} = props;
+  const {controlId, label, name, disabled, tooltip, defaultChecked} = props;
 
   const displayLabel = tooltip ? (
     <>
@@ -23,6 +23,7 @@ const FormCheckbox = (props) => {
                 {...field}
                 className="mx-md-2"
                 type="checkbox"
+                defaultChecked={defaultChecked}
                 disabled={disabled}
                 label={displayLabel}
                 isInvalid={form.touched[field.name] && form.errors[field.name]}

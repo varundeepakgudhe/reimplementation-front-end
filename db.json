@@ -1,0 +1,83 @@
+{
+  "instructors": [
+    {
+      "id": 1,
+      "name": "Fedrick Barbarosa"
+    },
+    {
+      "id": 2,
+      "name": "Ada Lovelace"
+    }
+  ],
+  "questionnaires": [
+    {
+      "id": 6,
+      "name": "Generic Reveiw",
+      "min_question_score": 0,
+      "max_question_score": 5,
+      "instructor_id": 1,
+      "updated_at": "4/25/2023",
+      "type": "ReviewQuestionnaire",
+      "is_private": true
+    },
+    {
+      "id": 2,
+      "name": "Generic Survey",
+      "min_question_score": 0,
+      "max_question_score": 5,
+      "instructor_id": 1,
+      "updated_at": "4/25/2023",
+      "type": "ReviewQuestionnaire",
+      "is_private": true
+    },
+    {
+      "id": 3,
+      "name": "Program 1 Questionaire",
+      "min_question_score": 0,
+      "max_question_score": 5,
+      "instructor_id": 1,
+      "updated_at": "10/10/2022",
+      "type": "ReviewQuestionnaire",
+      "is_private": true
+    },
+    {
+      "id": 4,
+      "name": "Test",
+      "min_question_score": 0,
+      "max_question_score": 5,
+      "instructor_id": "2",
+      "updated_at": "4/25/2023",
+      "type": "Author FeedbackQuestionnaire",
+      "is_private": true
+    },
+    {
+      "name": "test1",
+      "instructor_id": "1",
+      "min_question_score": 0,
+      "max_question_score": 10,
+      "is_private": false,
+      "type": "",
+      "id": 7,
+      "updated_at": "4/25/2023"
+    },
+    {
+      "name": "test2",
+      "instructor_id": 1,
+      "min_question_score": 0,
+      "max_question_score": 10,
+      "is_private": false,
+      "type": "CourseSurveyQuestionnaire",
+      "id": 8
+    },
+    {
+      "name": "test3",
+      "instructor_id": 1,
+      "min_question_score": 0,
+      "max_question_score": 10,
+      "is_private": false,
+      "type": "AuthorFeedbackQuestionnaire",
+      "id": 9,
+      "updated_at": "4/25/2023"
+    }
+  ]
+}
