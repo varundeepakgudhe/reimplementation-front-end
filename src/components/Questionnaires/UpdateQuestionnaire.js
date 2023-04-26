@@ -23,26 +23,26 @@ const initialValues = (questionnaire) => {
     is_private: questionnaire.is_private,
     updated_at: currDate,
     instructor_id: loggedInUser,
-    min_question_score: questionnaire.min_question_score,
-    max_question_score: questionnaire.max_question_score,
+    min_item_score: questionnaire.min_item_score,
+    max_item_score: questionnaire.max_item_score,
     type: questionnaire.type,
   };
 };
 
-// Name, Minimum Question Score, and Maximum Question Score are Required.
-// Minimum Question Score must be >= 0 and Maximum Question Score must be > Minimimum QUestion Score.
+// Name, Minimum Item Score, and Maximum Item Score are Required.
+// Minimum Item Score must be >= 0 and Maximum Item Score must be > Minimimum Item Score.
 const validationSchema = Yup.object({
   name: Yup.string()
     .required("Required")
     .max(64, "Questionnaire name must be at most 64 characters"),
-  min_question_score: Yup.number()
+  min_item_score: Yup.number()
     .required("Required")
     .moreThan(-1, "Must be 0 or greater.")
     .integer("Must be integer."),
-  max_question_score: Yup.number()
+  max_item_score: Yup.number()
     .required("Required")
     .moreThan(-1, "Must be 0 or greater.")
-    .moreThan(Yup.ref('min_question_score'), "Must be greater than the Minimum Question Score.")
+    .moreThan(Yup.ref('min_item_score'), "Must be greater than the Minimum Question Score.")
     .integer("Must be integer.")
 });
 
@@ -133,16 +133,16 @@ const UpdateQuestionnaire = ({questionnaireData, onClose}) => {
                 <Row>
                   <FormInput
                       as={Col}
-                      controlId="questionnaire-min-question-score"
-                      label="Minimum Question Score"
-                      name="min_question_score"
+                      controlId="questionnaire-min-item-score"
+                      label="Minimum Item Score"
+                      name="min_item_score"
                       md="1" 
                     />
                     <FormInput
                       as={Col}
-                      controlId="questionnaire-max-question-score"
-                      label="Maximum Question Score"
-                      name="max_question_score"
+                      controlId="questionnaire-max-item-score"
+                      label="Maximum Item Score"
+                      name="max_item_score"
                       md="1" 
                     />
                 </Row>

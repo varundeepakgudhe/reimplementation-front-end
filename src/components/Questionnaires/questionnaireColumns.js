@@ -31,13 +31,13 @@ export const QUESTIONNAIRE_COLUMNS = (handleDelete, handleEdit) => [
     disableFilters: true,
   },
   {
-    Header: "Min Question Score",
-    accessor: "min_question_score",
+    Header: "Min Item Score",
+    accessor: "min_item_score",
     disableFilters: true,
   },
   {
-    Header: "Max Question Score",
-    accessor: "max_question_score",
+    Header: "Max Item Score",
+    accessor: "max_item_score",
     disableFilters: true,
   },
   {
