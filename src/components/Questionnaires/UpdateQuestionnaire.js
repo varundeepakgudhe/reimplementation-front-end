@@ -42,7 +42,7 @@ const validationSchema = Yup.object({
   max_item_score: Yup.number()
     .required("Required")
     .moreThan(-1, "Must be 0 or greater.")
-    .moreThan(Yup.ref('min_item_score'), "Must be greater than the Minimum Question Score.")
+    .moreThan(Yup.ref('min_item_score'), "Must be greater than the Minimum Item Score.")
     .integer("Must be integer.")
 });
 
