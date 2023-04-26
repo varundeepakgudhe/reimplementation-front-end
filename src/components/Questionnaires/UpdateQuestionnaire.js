@@ -122,6 +122,7 @@ const UpdateQuestionnaire = ({questionnaireData, onClose}) => {
                   name="name"
                 />
 
+                {/* render default value of this checkbox based on the is_private value on existing record */}
                 <FormCheckbox
                   defaultChecked={initialValues(questionnaireData).is_private}
                   controlId="questionnaire-is-private"
