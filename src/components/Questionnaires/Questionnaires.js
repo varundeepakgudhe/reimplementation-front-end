@@ -9,8 +9,11 @@ import CreateQuestionnaire from "./CreateQuestionnaire";
 import DeleteQuestionnaire from "./DeleteQuestionnaire";
 import UpdateQuestionnaire from "./UpdateQuestionnaire";
 import {QUESTIONNAIRE_COLUMNS} from "./questionnaireColumns";
-//import DATA from './records.json'; // for testing
 
+
+// Employs the use-api hook from src/hooks/use-api.js
+// This employs axios tools to make restful calls to api
+// This will handle promises, errors, and setting data
 const Questionnaires = () => {
   const dispatch = useDispatch();
   const {
@@ -31,6 +34,7 @@ const Questionnaires = () => {
     data: {},
   });
 
+  // Here we employ the useEffect hook to get questionnaire data from the base axios url + /questionnaire
   useEffect(() => fetchQuestionnaires({url: "/questionnaires", method: "get"}), [fetchQuestionnaires]);
 
   // Error alert
@@ -43,6 +47,7 @@ const Questionnaires = () => {
     }
   }, [error, dispatch]);
 
+  // Handles the POST method create - invokes CreateQuestionnaire.js
   const onCreateQuestionnaireHandler = useCallback(
     (questionnaire) => {
       if (questionnaire && questionnaire.name) {
@@ -58,6 +63,7 @@ const Questionnaires = () => {
     [setQuestionnaireData, dispatch]
   );
 
+  // Handles the POST method update - invokes UpdateQuestionnaire.js
   const onUpdateQuestionnaireHandler = useCallback(
     (updatedQuestionnaire) => {
       if (updatedQuestionnaire && updatedQuestionnaire.name !== undefined) {
@@ -75,6 +81,7 @@ const Questionnaires = () => {
     [setQuestionnaireData, dispatch]
   );
 
+  // Handles the DELETE method update - invokes DeleteQuestionnaire.js
   const onDeleteQuestionnaireHandler = useCallback(
     (id, name, status) => {
       if (status) {
@@ -106,6 +113,7 @@ const Questionnaires = () => {
   );
   const initialState = {hiddenColumns: ["id"]};
 
+  // Describe the render of data on the screen
   return (
     <Container fluid className="px-md-4">
       <Row className="mt-md-2 mb-md-2">
